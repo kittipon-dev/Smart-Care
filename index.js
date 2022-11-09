@@ -22,6 +22,7 @@ const db = firebase.firestore();
 // });
 
 async function createHistory() {
+  console.log("createHistory");
   try {
     const time = new Date();
     //time end day 23.59.59
