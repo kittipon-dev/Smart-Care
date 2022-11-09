@@ -1,0 +1,16 @@
+{
+  "name": "smart-care",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "firebase": "^9.13.0",
+    "firebase-admin": "^11.2.0",
+    "moment": "^2.29.4",
+    "nanoid": "^3.1.23"
+  }
+}
