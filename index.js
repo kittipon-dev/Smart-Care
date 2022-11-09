@@ -22,7 +22,6 @@ const db = firebase.firestore();
 // });
 
 async function createHistory() {
-  console.log("createHistory");
   try {
     //const time = new Date();
     //set timezone
@@ -44,8 +43,6 @@ async function createHistory() {
 
     //timestamp
 
-    console.log(timestamp);
-
     //console.log(timeEnd, new Date());
     const listOpen = await db
       .collection("medicines")
@@ -58,7 +55,6 @@ async function createHistory() {
     const hour = moment(time).format("HH");
     const minute = moment(time).format("mm");
 
-    console.log(hour, minute);
     //reset history
     if (hour === 0 && minute === 0) {
       const listHistory = await db
