@@ -24,7 +24,14 @@ const db = firebase.firestore();
 async function createHistory() {
   console.log("createHistory");
   try {
-    const time = new Date();
+    //const time = new Date();
+    //set timezone
+    const time = moment(new Date())
+      .utcOffset("+07:00")
+      .format("YYYY-MM-DD HH:mm:ss");
+
+    const timestamp = moment(time).toDate();
+
     //time end day 23.59.59
     // const timeEnd = new Date(
     //   time.getFullYear(),
@@ -35,17 +42,23 @@ async function createHistory() {
     //   59
     // );
 
+    //timestamp
+
+    console.log(timestamp);
+
     //console.log(timeEnd, new Date());
     const listOpen = await db
       .collection("medicines")
-      .where("endDateTimestamp", ">=", time)
+      .where("endDateTimestamp", ">=", timestamp)
       .where("history", "==", false)
       .get();
 
     //get time current hour and minute
 
-    const hour = time.getHours();
-    const minute = time.getMinutes();
+    const hour = moment(time).format("HH");
+    const minute = moment(time).format("mm");
+
+    console.log(hour, minute);
     //reset history
     if (hour === 0 && minute === 0) {
       const listHistory = await db
@@ -84,8 +97,8 @@ async function createHistory() {
           .set({
             uid: v.uid,
             name: v.name,
-            date: new Date(),
-            dateText: moment(new Date()).format("DD/MM/YY"),
+            date: timestamp,
+            dateText: moment(timestamp).format("DD/MM/YY"),
             type: v.type,
             amount: v.amount,
             eated: false,
