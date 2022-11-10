@@ -95,12 +95,13 @@ async function createHistory() {
             uid: v.uid,
             name: v.name,
             date: timestamp,
-            dateText: moment(timestamp).format("DD/MM/YY"),
+            dateText: moment(timestamp).format("DD/MM/YYYY"),
             type: v.type,
             amount: v.amount,
             eated: false,
             id: id,
-            medicineId: v.id,
+            medicineId: v.docId,
+            time: v.time,
           });
 
         //update status medicine eated
