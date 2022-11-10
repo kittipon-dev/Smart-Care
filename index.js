@@ -22,6 +22,7 @@ const db = firebase.firestore();
 // });
 
 async function createHistory() {
+  //console.log("createHistory");
   try {
     //const time = new Date();
     //set timezone
@@ -99,6 +100,7 @@ async function createHistory() {
             amount: v.amount,
             eated: false,
             id: id,
+            medicineId: v.id,
           });
 
         //update status medicine eated
@@ -115,7 +117,7 @@ async function createHistory() {
 
 setInterval(async () => {
   createHistory();
-}, 10000);
+}, 3000);
 
 // app.listen(3000, () => {
 //   console.log("Listening on port 3000");
