@@ -85,7 +85,7 @@ async function createHistory() {
       const minuteString = minute.toString().padStart(2, "0");
       const timeCurrent = hourString + ":" + minuteString;
 
-      if (v.time === timeCurrent) {
+      if (v.time === timeCurrent && timestamp > v.startDateTimestamp.toDate()) {
         //create history medicine
         const id = nanoid();
         await db
