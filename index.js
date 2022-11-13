@@ -102,6 +102,8 @@ async function createHistory() {
             id: id,
             medicineId: v.docId,
             time: v.time,
+            startDate: v.startDate,
+            endDate: v.endDate,
           });
 
         //update status medicine eated
