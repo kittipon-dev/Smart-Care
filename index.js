@@ -48,10 +48,12 @@ async function createHistory() {
     const listOpen = await db
       .collection("medicines")
       .where("endDateTimestamp", ">=", timestamp)
-      .where("history", "==", false)
+      //.where("history", "==", false)
       .get();
 
     //get time current hour and minute
+
+    console.log("listOpen", listOpen.size);
 
     const hour = moment(time).format("HH");
     const minute = moment(time).format("mm");
@@ -64,7 +66,10 @@ async function createHistory() {
         .get();
       listHistory.forEach(async (doc) => {
         await db.collection("medicines").doc(doc.id).update({
-          history: false,
+          history1: false,
+          history2: false,
+          history3: false,
+          history4: false,
         });
       });
     }
@@ -85,7 +90,34 @@ async function createHistory() {
       const minuteString = minute.toString().padStart(2, "0");
       const timeCurrent = hourString + ":" + minuteString;
 
-      if (v.time === timeCurrent && timestamp > v.startDateTimestamp.toDate()) {
+      let time = 0;
+      let keyTime = "";
+
+      if (v.time1 === timeCurrent) {
+        time = 1;
+        keyTime = "time1";
+      } else if (v.time2 === timeCurrent) {
+        time = 2;
+        keyTime = "time2";
+      } else if (v.time3 === timeCurrent) {
+        time = 3;
+        keyTime = "time3";
+      } else if (v.time4 === timeCurrent) {
+        time = 4;
+        keyTime = "time4";
+      }
+
+      if (time > 0 && timestamp > v.startDateTimestamp.toDate()) {
+        console.log("create history", v.name);
+
+        const doc = await (
+          await db.collection("medicines").doc(v.docId).get()
+        ).data();
+
+        if (doc[`history${time}`] == true) {
+          return;
+        }
+
         //create history medicine
         const id = nanoid();
         await db
@@ -101,16 +133,20 @@ async function createHistory() {
             eated: false,
             id: id,
             medicineId: v.docId,
-            time: v.time,
+            time: v[keyTime],
             startDate: v.startDate,
             endDate: v.endDate,
+            typeeat: v.typeeat,
           });
 
         //update status medicine eated
         const docId = listOpen.docs[i].id;
-        await db.collection("medicines").doc(docId).update({
-          history: true,
-        });
+        await db
+          .collection("medicines")
+          .doc(docId)
+          .update({
+            [`history${time}`]: true,
+          });
       }
     }
   } catch (error) {
