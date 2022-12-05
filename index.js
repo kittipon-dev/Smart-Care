@@ -137,6 +137,7 @@ async function createHistory() {
             startDate: v.startDate,
             endDate: v.endDate,
             typeeat: v.typeeat,
+            typeValue: v.typeValue,
           });
 
         //update status medicine eated
